@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
     // Dummy data for testing
     private List<Restaurant> createDummyData() {
         List<Restaurant> dummyData = new ArrayList<>();
-        dummyData.add(new Restaurant("Restaurant 1", "Address 1", 4.0f));
-        dummyData.add(new Restaurant("Restaurant 2", "Address 2", 3.5f));
+        dummyData.add(new Restaurant("Restaurant 1", "Address 1", "555-555-5555",
+                "test description", Arrays.asList("Vegetarian", "Italian"), 4.0f));
+        dummyData.add(new Restaurant("Restaurant 2", "Address 2","555-555-5555",
+                "test description", Arrays.asList("Vegetarian", "Italian"), 3.5f));
         // Add more dummy data as needed
         return dummyData;
     }

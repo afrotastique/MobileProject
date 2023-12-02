@@ -4,6 +4,7 @@ package com.example.mobileproject;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,6 +23,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         // Set up views
         TextView textViewName = findViewById(R.id.textViewName);
         TextView textViewAddress = findViewById(R.id.textViewAddress);
+        TextView textViewPhone = findViewById(R.id.textViewPhone);
+        TextView textViewDescription = findViewById(R.id.textViewDescription);
+        TextView textViewTags = findViewById(R.id.textViewTags);
         RatingBar ratingBar = findViewById(R.id.ratingBar);
         Button btnViewMap = findViewById(R.id.btnViewMap);
         Button btnShareEmail = findViewById(R.id.btnShareEmail);
@@ -32,7 +36,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         if (restaurant != null) {
             textViewName.setText(restaurant.getName());
             textViewAddress.setText(restaurant.getAddress());
-            ratingBar.setRating(restaurant.getRating());
+            textViewPhone.setText("Phone: " + restaurant.getPhone());
+            textViewDescription.setText("Description: " + restaurant.getDescription());
+            textViewTags.setText("Tags: " + TextUtils.join(", ", restaurant.getTags()));
+            ratingBar.setRating((float) restaurant.getRating());
         }
 
         // Implement the click listener for the "View Map" button

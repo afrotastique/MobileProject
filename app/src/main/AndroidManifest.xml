@@ -37,6 +37,12 @@
             android:name=".AboutActivity">
         </activity>
 
+        <activity
+            android:name=".RestaurantDetailsActivity"
+            android:exported="true">
+        </activity>
+
+
     </application>
 
 </manifest>

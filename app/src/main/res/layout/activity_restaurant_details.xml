@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textViewAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewName"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Add more TextViews for other details like phone, description, tags, etc. -->
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewAddress"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Add a button for viewing the map -->
+    <Button
+        android:id="@+id/btnViewMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ratingBar"
+        android:layout_marginTop="16dp"
+        android:text="View Map"/>
+
+    <!-- Add share buttons (email, Facebook, Twitter) -->
+    <!-- Buttons for sharing -->
+    <Button
+        android:id="@+id/btnShareEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnViewMap"
+        android:layout_marginTop="16dp"
+        android:text="Share via Email"/>
+
+    <Button
+        android:id="@+id/btnShareFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnShareEmail"
+        android:layout_marginTop="16dp"
+        android:text="Share on Facebook"/>
+
+    <Button
+        android:id="@+id/btnShareTwitter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnShareFacebook"
+        android:layout_marginTop="16dp"
+        android:text="Share on Twitter"/>
+
+</RelativeLayout>

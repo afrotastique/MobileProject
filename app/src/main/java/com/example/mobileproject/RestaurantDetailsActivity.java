@@ -17,6 +17,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details);
 
+
         // Retrieve restaurant details from Intent
         Restaurant restaurant = getIntent().getParcelableExtra("restaurant");
 
@@ -42,6 +43,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             ratingBar.setRating((float) restaurant.getRating());
         }
 
+
         // Implement the click listener for the "View Map" button
         btnViewMap.setOnClickListener(v -> {
             // Implement the logic to view the map
@@ -63,6 +65,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                     "Rating: " + restaurant.getRating());
             startActivity(Intent.createChooser(emailIntent, "Send email"));
         });
+
 
         // Implement the click listener for the "Share on Facebook" button
         btnShareFacebook.setOnClickListener(v -> {

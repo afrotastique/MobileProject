@@ -4,12 +4,22 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:onClick="onBackPressed"
+        android:layout_marginTop="8dp" /> <!-- Add margin to the top -->
+
     <TextView
         android:id="@+id/textViewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_below="@id/btnBack"
+        android:layout_marginTop="16dp" /> <!-- Add margin to the top -->
 
     <TextView
         android:id="@+id/textViewAddress"
@@ -85,3 +95,4 @@
         android:text="Share on Twitter" />
 
 </RelativeLayout>
+

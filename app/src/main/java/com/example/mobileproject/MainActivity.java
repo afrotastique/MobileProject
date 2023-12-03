@@ -1,34 +1,33 @@
 // MainActivity.java
 package com.example.mobileproject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RestaurantDialogFragment.OnRestaurantSaveListener {
 
     private RecyclerView recyclerView;
     private RestaurantAdapter restaurantAdapter;
+    private RestaurantManager restaurantManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize RestaurantManager singleton
+        restaurantManager = RestaurantManager.getInstance();
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Dummy data for testing
-        List<Restaurant> dummyData = createDummyData();
-
-        // Set up the RestaurantAdapter with the OnItemClickListener
-        restaurantAdapter = new RestaurantAdapter(dummyData, new RestaurantAdapter.OnItemClickListener() {
+        // Set up the RestaurantAdapter with the OnItemClickListener and MainActivity as OnRestaurantSaveListener
+        restaurantAdapter = new RestaurantAdapter(restaurantManager.getRestaurantList(), new RestaurantAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Restaurant restaurant) {
                 // Handle item click, navigate to the details screen
@@ -39,17 +38,65 @@ public class MainActivity extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(restaurantAdapter);
+
+        // Set up click listeners for add, edit, and remove buttons
+        Button btnAddRestaurant = findViewById(R.id.btnAddRestaurant);
+        Button btnEditRestaurant = findViewById(R.id.btnEditRestaurant);
+        Button btnRemoveRestaurant = findViewById(R.id.btnRemoveRestaurant);
+
+        btnAddRestaurant.setOnClickListener(v -> addRestaurant());
+        btnEditRestaurant.setOnClickListener(v -> editRestaurant());
+        btnRemoveRestaurant.setOnClickListener(v -> removeRestaurant());
     }
 
-    // Dummy data for testing
-    private List<Restaurant> createDummyData() {
-        List<Restaurant> dummyData = new ArrayList<>();
-        dummyData.add(new Restaurant("Restaurant 1", "Address 1", "555-555-5555",
-                "test description", Arrays.asList("Vegetarian", "Italian"), 4.0f));
-        dummyData.add(new Restaurant("Restaurant 2", "Address 2","555-555-5555",
-                "test description", Arrays.asList("Vegetarian", "Italian"), 3.5f));
-        // Add more dummy data as needed
-        return dummyData;
+    private void addRestaurant() {
+        // Show the dialog for adding a new restaurant
+        showAddEditDialog(null);
+    }
+
+    private void editRestaurant() {
+        // Check if a restaurant is selected
+        int selectedPosition = restaurantAdapter.getSelectedPosition();
+        if (selectedPosition != RecyclerView.NO_POSITION) {
+            // Show the dialog for editing the selected restaurant
+            showAddEditDialog(restaurantManager.getRestaurantList().get(selectedPosition));
+        }
+    }
+
+    private void removeRestaurant() {
+        // Check if a restaurant is selected
+        int selectedPosition = restaurantAdapter.getSelectedPosition();
+        if (selectedPosition != RecyclerView.NO_POSITION) {
+            // Remove the selected restaurant
+            restaurantManager.removeRestaurant(selectedPosition);
+            // Notify the adapter about the change
+            restaurantAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void showAddEditDialog(Restaurant restaurant) {
+        // Implement the logic to show a dialog for adding/editing a restaurant
+        // You may use AlertDialog, BottomSheetDialog, or start a new activity
+        // In this example, we will use a simple AlertDialog
+        RestaurantDialogFragment dialogFragment = RestaurantDialogFragment.newInstance(restaurant);
+        dialogFragment.setOnRestaurantSaveListener(this);
+        dialogFragment.show(getSupportFragmentManager(), "RestaurantDialog");
+    }
+
+    @Override
+    public void onSave(Restaurant newRestaurant) {
+        // Callback method from the dialog to handle the saved restaurant
+        if (restaurantAdapter.getSelectedPosition() != RecyclerView.NO_POSITION) {
+            // Edit existing restaurant
+            restaurantManager.editRestaurant(restaurantAdapter.getSelectedPosition(), newRestaurant);
+        } else {
+            // Add new restaurant
+            restaurantManager.addRestaurant(newRestaurant);
+        }
+        // Notify the adapter about the change
+        restaurantAdapter.notifyDataSetChanged();
     }
 }
+
+
 

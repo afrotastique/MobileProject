@@ -5,14 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
 
     private List<Restaurant> restaurantList;
     private OnItemClickListener onItemClickListener;
+    private int selectedPosition = RecyclerView.NO_POSITION;
 
     public interface OnItemClickListener {
         void onItemClick(Restaurant restaurant);
@@ -34,12 +37,25 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         Restaurant restaurant = restaurantList.get(position);
         holder.bind(restaurant);
-        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(restaurant));
+
+        // Set the background color based on the selected position
+        holder.itemView.setBackgroundResource(selectedPosition == position ? R.color.colorSelected : android.R.color.transparent);
+
+        holder.itemView.setOnClickListener(v -> {
+            // Update the selected position
+            selectedPosition = position;
+            onItemClickListener.onItemClick(restaurant);
+            notifyDataSetChanged(); // Notify the adapter about the change
+        });
     }
 
     @Override
     public int getItemCount() {
         return restaurantList.size();
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
     }
 
     static class RestaurantViewHolder extends RecyclerView.ViewHolder {

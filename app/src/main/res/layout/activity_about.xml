@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- activity_about.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <!-- Add TextViews for displaying team members' names -->
     <TextView
-        android:id="@+id/textTeamMembers"
+        android:id="@+id/textViewAbout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Team Members:"
+        android:text="Developed by:\n\nDilara Yalniz 101376617\nJulien Byrnes 101406358"
         android:textSize="18sp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textTeamMembers"
-        android:layout_marginTop="8dp"
-        android:text="Member 1"/>
-
-    <!-- Add more TextViews for each team member -->
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
+
 

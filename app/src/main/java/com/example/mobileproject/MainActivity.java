@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantDialogF
 
         recyclerView.setAdapter(restaurantAdapter);
 
-        // Set up click listeners for add, edit, and remove buttons
+        //Add, edit, and remove buttons
         Button btnAddRestaurant = findViewById(R.id.btnAddRestaurant);
         Button btnEditRestaurant = findViewById(R.id.btnEditRestaurant);
         Button btnRemoveRestaurant = findViewById(R.id.btnRemoveRestaurant);
@@ -47,6 +47,13 @@ public class MainActivity extends AppCompatActivity implements RestaurantDialogF
         btnAddRestaurant.setOnClickListener(v -> addRestaurant());
         btnEditRestaurant.setOnClickListener(v -> editRestaurant());
         btnRemoveRestaurant.setOnClickListener(v -> removeRestaurant());
+
+        // About button screen
+        Button btnAbout = findViewById(R.id.btnAbout);
+        btnAbout.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void addRestaurant() {

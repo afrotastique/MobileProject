@@ -1,6 +1,8 @@
 // RestaurantAdapter.java
 package com.example.mobileproject;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,16 +63,30 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     static class RestaurantViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewName;
         private TextView textViewAddress;
+        private TextView textViewPhone;
 
         RestaurantViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewAddress = itemView.findViewById(R.id.textViewAddress);
+            textViewPhone = itemView.findViewById(R.id.textViewPhone);
         }
 
         void bind(Restaurant restaurant) {
             textViewName.setText(restaurant.getName());
             textViewAddress.setText(restaurant.getAddress());
+            textViewPhone.setText(restaurant.getPhone());
+
+            textViewPhone.setOnClickListener(v -> {
+                // Create an Intent to dial the phone number
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + restaurant.getPhone()));
+                if (intent.resolveActivity(v.getContext().getPackageManager()) != null) {
+                    v.getContext().startActivity(intent);
+                }
+            });
+
         }
+
     }
 }

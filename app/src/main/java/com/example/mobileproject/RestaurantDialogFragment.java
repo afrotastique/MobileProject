@@ -20,13 +20,17 @@ import java.util.Arrays;
 public class RestaurantDialogFragment extends DialogFragment {
 
     private static final String ARG_RESTAURANT = "restaurant";
+    private static final String ARG_EDIT_POSITION = "edit_position";
 
     private Restaurant restaurant;
+    private int editPosition = -1; // Default value for adding, not editing
     private EditText etName, etAddress, etPhone, etDescription, etTags;
     private RatingBar ratingBar;
     private OnRestaurantSaveListener onRestaurantSaveListener;
 
     public interface OnRestaurantSaveListener {
+        void onSave(Restaurant newRestaurant, int editPosition);
+
         void onSave(Restaurant newRestaurant);
     }
 
@@ -34,10 +38,11 @@ public class RestaurantDialogFragment extends DialogFragment {
         this.onRestaurantSaveListener = listener;
     }
 
-    public static RestaurantDialogFragment newInstance(Restaurant restaurant) {
+    public static RestaurantDialogFragment newInstance(Restaurant restaurant, int editPosition) {
         RestaurantDialogFragment fragment = new RestaurantDialogFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_RESTAURANT, restaurant);
+        args.putInt(ARG_EDIT_POSITION, editPosition);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,8 +52,11 @@ public class RestaurantDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             restaurant = getArguments().getParcelable(ARG_RESTAURANT);
+            editPosition = getArguments().getInt(ARG_EDIT_POSITION, -1);
         }
     }
+
+    // Existing code...
 
     @NonNull
     @Override
@@ -99,9 +107,9 @@ public class RestaurantDialogFragment extends DialogFragment {
             // Create a new restaurant with the entered details
             Restaurant newRestaurant = new Restaurant(name, address, phone, description, Arrays.asList(tags.split("\\s*,\\s*")), rating);
 
-            // Notify the listener
+            // Notify the listener with the restaurant and position
             if (onRestaurantSaveListener != null) {
-                onRestaurantSaveListener.onSave(newRestaurant);
+                onRestaurantSaveListener.onSave(newRestaurant, editPosition);
             }
 
             // Dismiss the dialog

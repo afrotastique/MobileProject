@@ -20,6 +20,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     public interface OnItemClickListener {
         void onItemClick(Restaurant restaurant);
     }
+    public void updateDataSet(List<Restaurant> newDataSet) {
+        this.restaurantList = newDataSet;
+        notifyDataSetChanged();
+    }
+
 
     public RestaurantAdapter(List<Restaurant> restaurantList, OnItemClickListener onItemClickListener) {
         this.restaurantList = restaurantList;
@@ -39,15 +44,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         holder.bind(restaurant);
 
         // Set the background color based on the selected position
-        holder.itemView.setBackgroundResource(selectedPosition == position ? R.color.colorSelected : android.R.color.transparent);
+        holder.itemView.setBackgroundResource(holder.getAdapterPosition() == selectedPosition ? R.color.colorSelected : android.R.color.transparent);
 
         holder.itemView.setOnClickListener(v -> {
             // Update the selected position
-            selectedPosition = position;
+            selectedPosition = holder.getAdapterPosition();
             onItemClickListener.onItemClick(restaurant);
             notifyDataSetChanged(); // Notify the adapter about the change
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -74,3 +80,4 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         }
     }
 }
+

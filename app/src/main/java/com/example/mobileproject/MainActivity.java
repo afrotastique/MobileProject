@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantDialogF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // Initialize RestaurantManager singleton
         restaurantManager = RestaurantManager.getInstance();
 
@@ -78,25 +79,34 @@ public class MainActivity extends AppCompatActivity implements RestaurantDialogF
         // Implement the logic to show a dialog for adding/editing a restaurant
         // You may use AlertDialog, BottomSheetDialog, or start a new activity
         // In this example, we will use a simple AlertDialog
-        RestaurantDialogFragment dialogFragment = RestaurantDialogFragment.newInstance(restaurant);
+        int selectedPosition = restaurantAdapter.getSelectedPosition();
+        RestaurantDialogFragment dialogFragment = RestaurantDialogFragment.newInstance(restaurant, selectedPosition);
         dialogFragment.setOnRestaurantSaveListener(this);
         dialogFragment.show(getSupportFragmentManager(), "RestaurantDialog");
     }
 
+
     @Override
-    public void onSave(Restaurant newRestaurant) {
-        // Callback method from the dialog to handle the saved restaurant
-        if (restaurantAdapter.getSelectedPosition() != RecyclerView.NO_POSITION) {
+    public void onSave(Restaurant newRestaurant, int editPosition) {
+        if (editPosition != RecyclerView.NO_POSITION) {
             // Edit existing restaurant
-            restaurantManager.editRestaurant(restaurantAdapter.getSelectedPosition(), newRestaurant);
+            restaurantManager.editRestaurant(editPosition, newRestaurant);
         } else {
             // Add new restaurant
             restaurantManager.addRestaurant(newRestaurant);
         }
-        // Notify the adapter about the change
-        restaurantAdapter.notifyDataSetChanged();
+
+        // Update the data set in the adapter
+        restaurantAdapter.updateDataSet(restaurantManager.getRestaurantList());
+    }
+
+    @Override
+    public void onSave(Restaurant newRestaurant) {
+        // Handle saving a new restaurant without edit position (if needed)
     }
 }
+
+
 
 
 
